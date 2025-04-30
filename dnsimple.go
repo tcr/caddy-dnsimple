@@ -52,6 +52,16 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 				if d.NextArg() {
 					return d.ArgErr()
 				}
+			case "account_id":
+				if p.Provider.AccountID != "" {
+					return d.Err("AccountID already set")
+				}
+				if d.NextArg() {
+					p.Provider.AccountID = d.Val()
+				}
+				if d.NextArg() {
+					return d.ArgErr()
+				}
 			default:
 				return d.Errf("unrecognized subdirective '%s'", d.Val())
 			}
